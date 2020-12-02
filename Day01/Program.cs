@@ -1,17 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
-var integers = File.ReadAllLines("../../../input.txt").Select(val => int.Parse(val)).ToList();
+var integers = Array.ConvertAll(File.ReadAllLines("../../../input.txt"), int.Parse);
 
-for(var i = 0; i < integers.Count; i++)
-{
-    for(var j = i + 1; j < integers.Count; j++)
-    {
-        for(var k = j + 1; k < integers.Count; k++)
-        {
+for(var i = 0; i < integers.Length; i++)
+    for(var j = i + 1; j < integers.Length; j++)
+        for(var k = j + 1; k < integers.Length; k++)
             if (integers[i] + integers[j] + integers[k] == 2020)
                 Console.WriteLine(integers[i] * integers[j] * integers[k]);
-        }
-    }
-}
