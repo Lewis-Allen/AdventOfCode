@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
-var input = File.ReadAllLines("../../../input.txt");
+var lines = File.ReadAllLines("../../../input.txt");
 
 int validPasswordCount = 0;
-foreach(var s in input)
+foreach(var line in lines)
 {
-    string[] values = s.Split(new[] { "-", ":", " " }, StringSplitOptions.RemoveEmptyEntries);
+    string[] values = line.Split(new[] { "-", " " }, StringSplitOptions.RemoveEmptyEntries);
 
     int min = int.Parse(values[0]) - 1;
     int max = int.Parse(values[1]) - 1;
