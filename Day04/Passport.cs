@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Day04
 {
-    public record Document
+    public record Passport
     {
         public string BirthYear { get; set; }
         public string IssueYear { get; set; }

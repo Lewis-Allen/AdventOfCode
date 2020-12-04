@@ -13,8 +13,8 @@ Log.Logger = log;
 
 var lines = File.ReadAllLines("../../../input.txt");
 
-Document passport = new();
-List<Document> passports = new()
+Passport passport = new();
+List<Passport> passports = new()
 {
     passport
 };
@@ -24,7 +24,7 @@ foreach(var line in lines)
 {
     if (string.IsNullOrWhiteSpace(line))
     {
-        passport = new Document();
+        passport = new Passport();
         passports.Add(passport);
     }
     else
@@ -32,23 +32,24 @@ foreach(var line in lines)
         foreach (var lineEntry in line.Split(" "))
         {
             var entry = lineEntry.Split(":");
-            ParseEntry(passport, entry[0], entry[1]);
+            var entryName = entry[0];
+            var entryValue = entry[1];
+
+            switch (entryName)
+            {
+                case "byr": passport.BirthYear = entryValue; break;
+                case "iyr": passport.IssueYear = entryValue; break;
+                case "eyr": passport.ExpirationYear = entryValue; break;
+                case "hgt": passport.Height = entryValue; break;
+                case "hcl": passport.HairColour = entryValue; break;
+                case "ecl": passport.EyeColour = entryValue; break;
+                case "pid": passport.PassportID = entryValue; break;
+                case "cid": passport.CountryID = entryValue; break;
+            }
         }
     }
 }
 
 Console.WriteLine(passports.Count(s => s.IsValid()));
-
-static void ParseEntry(Document document, string entryName, string entryValue)
-{
-    if (entryName == "byr") document.BirthYear = entryValue;
-    if (entryName == "iyr") document.IssueYear = entryValue;
-    if (entryName == "eyr") document.ExpirationYear = entryValue;
-    if (entryName == "hgt") document.Height = entryValue;
-    if (entryName == "hcl") document.HairColour = entryValue;
-    if (entryName == "ecl") document.EyeColour = entryValue;
-    if (entryName == "pid") document.PassportID = entryValue;
-    if (entryName == "cid") document.CountryID = entryValue;
-}
 
 
