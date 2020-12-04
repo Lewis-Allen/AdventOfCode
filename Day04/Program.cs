@@ -1,15 +1,8 @@
 ﻿using Day04;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-var log = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateLogger();
-
-Log.Logger = log;
 
 var lines = File.ReadAllLines("../../../input.txt");
 
@@ -19,7 +12,6 @@ List<Passport> passports = new()
     passport
 };
 
-// Parse file
 foreach(var line in lines)
 {
     if (string.IsNullOrWhiteSpace(line))
