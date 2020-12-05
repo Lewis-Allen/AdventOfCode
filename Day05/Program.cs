@@ -13,24 +13,18 @@ foreach (var line in lines)
 {
     int row = Convert.ToInt32(line.Substring(0, 7).Replace('B', '1').Replace('F', '0'), 2);
     int column = Convert.ToInt32(line.Substring(7, 3).Replace('R', '1').Replace('L', '0'), 2);
+    highestSeatId = Math.Max(highestSeatId, row * 8 + column);
 
-    if (row != 127 && row != 0)
-    {
-        var columns = seats.GetValueOrDefault(row);
-        if (columns == null)
-            columns = new HashSet<int>();
+    var columns = seats.GetValueOrDefault(row);
+    if (columns == null)
+        columns = new HashSet<int>();
 
-        columns.Add(column);
-        seats[row] = columns;
-    }
-
-    int seatId = row * 8 + column;
-    if (seatId > highestSeatId)
-        highestSeatId = seatId;
+    columns.Add(column);
+    seats[row] = columns;
 }
 Console.WriteLine($"Highest Seat ID: {highestSeatId}");
 
-foreach(var key in seats.Keys)
+foreach(var key in seats.Keys.Where(s => s != 0 && s != 127).ToList())
 {
     HashSet<int> values = seats[key];
     values.SymmetricExceptWith(columnLookup);
