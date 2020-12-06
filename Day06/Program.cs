@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-var lines = File.ReadAllText("../../../input.txt")
-    .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries)
-    .Select(s => s.Replace("\r\n", ""))
-    .ToList();
+var file = File.ReadAllText("../../../input.txt")
+    .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries);
 
-Console.WriteLine(lines.Sum(s => s.Distinct().Count()));
+var questions = file.Select(s => s.Replace("\r\n", ""))
+    .Sum(s => s.Distinct().Count());
 
-lines = File.ReadAllText("../../../input.txt")
-    .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries)
-    .ToList();
+Console.WriteLine($"Part One: {questions}");
+
+var lines = file.ToList();
 
 int count = 0;
 foreach(var group in lines)
@@ -29,6 +28,6 @@ foreach(var group in lines)
     count += letters.Count();
 }
 
-Console.WriteLine(count);
+Console.WriteLine($"Part Two: {count}");
 
 
