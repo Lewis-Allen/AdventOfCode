@@ -6,27 +6,18 @@ using System.Linq;
 var file = File.ReadAllText("../../../input.txt")
     .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries);
 
-var questions = file.Select(s => s.Replace("\r\n", ""))
+// Part One
+int questions = file.Select(s => s.Replace("\r\n", ""))
     .Sum(s => s.Distinct().Count());
 
 Console.WriteLine($"Part One: {questions}");
 
-var lines = file.ToList();
+// Part Two
+IEnumerable<char> c = "abcdefghijklmnopqrstuvwxyz";
 
-int count = 0;
-foreach(var group in lines)
-{
-    IEnumerable<char> letters = "abcdefghijklmnopqrstuvwxyz";
-    
-    var people = group.Split("\r\n");
-
-    for (var i = 0; i < people.Length; i++)
-    {
-        letters = letters.Intersect(people[i]);
-    }
-
-    count += letters.Count();
-}
+var count = file.Select(s => s.Split("\r\n"))
+    .Select(s => s.Aggregate(c, (a, b) => a.Intersect(b)))
+    .Sum(s => s.Count());
 
 Console.WriteLine($"Part Two: {count}");
 
