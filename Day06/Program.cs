@@ -13,7 +13,7 @@ int yesInGroup = file.Select(s => s.Replace("\r\n", ""))
 Console.WriteLine($"Part One: {yesInGroup}");
 
 // Part Two
-var allYesInGroup = file.Select(s => s.Split("\r\n"))
+int allYesInGroup = file.Select(s => s.Split("\r\n"))
     .Select(s => s.Aggregate((IEnumerable<char> a, IEnumerable<char> b) => a.Intersect(b)))
     .Sum(s => s.Count());
 
