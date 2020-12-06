@@ -7,18 +7,16 @@ var file = File.ReadAllText("../../../input.txt")
     .Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries);
 
 // Part One
-int questions = file.Select(s => s.Replace("\r\n", ""))
+int yesInGroup = file.Select(s => s.Replace("\r\n", ""))
     .Sum(s => s.Distinct().Count());
 
-Console.WriteLine($"Part One: {questions}");
+Console.WriteLine($"Part One: {yesInGroup}");
 
 // Part Two
-IEnumerable<char> c = "abcdefghijklmnopqrstuvwxyz";
-
-var count = file.Select(s => s.Split("\r\n"))
-    .Select(s => s.Aggregate(c, (a, b) => a.Intersect(b)))
+var allYesInGroup = file.Select(s => s.Split("\r\n"))
+    .Select(s => s.Aggregate((IEnumerable<char> a, IEnumerable<char> b) => a.Intersect(b)))
     .Sum(s => s.Count());
 
-Console.WriteLine($"Part Two: {count}");
+Console.WriteLine($"Part Two: {allYesInGroup}");
 
 
