@@ -29,13 +29,10 @@ static HashSet<string> FindParents(string colour, Dictionary<string, List<(int, 
 
 static void FindParentsHelper(string colour, Dictionary<string, List<(int, string)>> bags, HashSet<string> found)
 {
-    foreach (var key in bags.Keys)
+    foreach(var key in bags.Keys.Where(s => bags[s].Any(t => t.Item2 == colour) && !found.Contains(s)))
     {
-        if (bags[key].Any(s => s.Item2 == colour) && !found.Contains(key))
-        {
-            found.Add(key);
-            FindParentsHelper(key, bags, found);
-        }
+        found.Add(key);
+        FindParentsHelper(key, bags, found);
     }
 }
 
