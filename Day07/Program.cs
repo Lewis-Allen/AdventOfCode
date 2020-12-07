@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 
 var file = File.ReadAllLines("../../../input.txt");
 
-List<string> colours = new();
-
 var bags = new Dictionary<string, List<(int, string)>>();
 
 foreach(var line in file)
@@ -15,31 +13,28 @@ foreach(var line in file)
     ParseLine(line, bags);
 }
 
-int noOfColours = PartOne(bags);
+int noOfColours = FindParents("shiny gold", bags).Count;
 Console.WriteLine(noOfColours);
 
+// We want bags inside! (not counting the shiny gold bag itself).
 int noOfBags = TotalBags("shiny gold", bags);
-
-// We want bags inside! (not counting the shiny gold back itself).
 Console.WriteLine(noOfBags - 1);
 
-static int PartOne(Dictionary<string, List<(int, string)>> bag)
+static HashSet<string> FindParents(string colour, Dictionary<string, List<(int, string)>> bag)
 {
     HashSet<string> found = new();
-
-    FindParents("shiny gold", bag, found);
-
-    return found.Count;
+    FindParentsHelper(colour, bag, found);
+    return found;
 }
 
-static void FindParents(string colour, Dictionary<string, List<(int, string)>> bag, HashSet<string> found)
+static void FindParentsHelper(string colour, Dictionary<string, List<(int, string)>> bag, HashSet<string> found)
 {
     foreach (var key in bag.Keys)
     {
         if (bag[key].Any(s => s.Item2 == colour) && !found.Contains(key))
         {
             found.Add(key);
-            FindParents(key, bag, found);
+            FindParentsHelper(key, bag, found);
         }
     }
 }
@@ -52,6 +47,8 @@ static int TotalBags(string colour, Dictionary<string, List<(int, string)>> bag)
 static void ParseLine(string line, Dictionary<string, List<(int, string)>> bags)
 {
     //clear purple bags contain 5 faded indigo bags, 3 muted purple bags.
+    var items2 = Regex.Matches(line, "((?:\\S+\\s){2,3})(bags?)");
+
     var items = Regex.Matches(line, "((?:\\S+\\s){2,3})(bags?)")
         .OfType<Match>()
         .Select(m => m.Groups[0].Value.Replace("bags", "").Replace("bag", "").Trim())
