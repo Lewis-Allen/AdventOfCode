@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 var file = File.ReadAllLines("../../../input.txt");
-
 var bags = new Dictionary<string, List<(int, string)>>();
 
 foreach(var line in file)
@@ -13,12 +12,14 @@ foreach(var line in file)
     ParseLine(line, bags);
 }
 
-int noOfColours = FindParents("shiny gold", bags).Count;
-Console.WriteLine(noOfColours);
+var colour = "shiny gold";
+
+int noOfColours = FindParents(colour, bags).Count;
+Console.WriteLine($"{noOfColours} different bag colours have at least one {colour} bag inside!");
 
 // We want bags inside! (not counting the shiny gold bag itself).
-int noOfBags = TotalBags("shiny gold", bags);
-Console.WriteLine(noOfBags - 1);
+int noOfBags = TotalBags(colour, bags);
+Console.WriteLine($"The {colour} bag contains {noOfBags - 1} other bags!");
 
 static HashSet<string> FindParents(string colour, Dictionary<string, List<(int, string)>> bags)
 {
