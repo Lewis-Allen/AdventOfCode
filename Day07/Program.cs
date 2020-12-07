@@ -20,49 +20,43 @@ Console.WriteLine(noOfColours);
 int noOfBags = TotalBags("shiny gold", bags);
 Console.WriteLine(noOfBags - 1);
 
-static HashSet<string> FindParents(string colour, Dictionary<string, List<(int, string)>> bag)
+static HashSet<string> FindParents(string colour, Dictionary<string, List<(int, string)>> bags)
 {
     HashSet<string> found = new();
-    FindParentsHelper(colour, bag, found);
+    FindParentsHelper(colour, bags, found);
     return found;
 }
 
-static void FindParentsHelper(string colour, Dictionary<string, List<(int, string)>> bag, HashSet<string> found)
+static void FindParentsHelper(string colour, Dictionary<string, List<(int, string)>> bags, HashSet<string> found)
 {
-    foreach (var key in bag.Keys)
+    foreach (var key in bags.Keys)
     {
-        if (bag[key].Any(s => s.Item2 == colour) && !found.Contains(key))
+        if (bags[key].Any(s => s.Item2 == colour) && !found.Contains(key))
         {
             found.Add(key);
-            FindParentsHelper(key, bag, found);
+            FindParentsHelper(key, bags, found);
         }
     }
 }
 
-static int TotalBags(string colour, Dictionary<string, List<(int, string)>> bag)
+static int TotalBags(string colour, Dictionary<string, List<(int, string)>> bags)
 {
-    return 1 + bag[colour].Sum(s => s.Item1 * TotalBags(s.Item2, bag));
+    return 1 + bags[colour].Sum(s => s.Item1 * TotalBags(s.Item2, bags));
 }
 
 static void ParseLine(string line, Dictionary<string, List<(int, string)>> bags)
 {
-    //clear purple bags contain 5 faded indigo bags, 3 muted purple bags.
-    var items2 = Regex.Matches(line, "((?:\\S+\\s){2,3})(bags?)");
-
-    var items = Regex.Matches(line, "((?:\\S+\\s){2,3})(bags?)")
+    var items = Regex.Matches(line, "(^\\w+\\s\\w+)|(\\d\\s\\w+\\s\\w+)")
         .OfType<Match>()
-        .Select(m => m.Groups[0].Value.Replace("bags", "").Replace("bag", "").Trim())
+        .Select(m => m.Groups[0].Value)
         .ToArray();
 
-    var bagColour = items[0];
+    string bagColour = items[0];
 
     bags.Add(bagColour, new());
 
     for (var i = 1; i < items.Length; i++)
     {
-        if (items[i] == "contain no other")
-            continue;
-
         var num = int.Parse(items[i].Substring(0, 1));
         var colour = items[i].Substring(2, items[i].Length - 2);
 
