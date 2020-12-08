@@ -5,14 +5,7 @@ using System.Linq;
 
 var lines = File.ReadAllLines("../../../input.txt");
 
-List<int> indexes = new();
-for (var i = 0; i < lines.Length; i++)
-{
-    if (lines[i].Contains("nop") || lines[i].Contains("jmp"))
-        indexes.Add(i);
-}
-
-foreach(var index in indexes)
+foreach (var index in lines.Select((b, i) => b.Contains("nop") || b.Contains("jmp") ? i : -1).Where(i => i != -1).ToArray())
 {
     var linesCopy = new List<string>(lines).ToArray();
 
@@ -20,8 +13,11 @@ foreach(var index in indexes)
 
     int res = RunProgram(linesCopy);
 
-    if(res != 0)
+    if (res != 0)
+    {
         Console.WriteLine(res);
+        break;
+    }
 }
 
 static int RunProgram(string[] lines)
@@ -62,4 +58,3 @@ static int RunProgram(string[] lines)
         }
     }
 }
-
