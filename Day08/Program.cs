@@ -5,22 +5,18 @@ using System.Linq;
 
 var lines = File.ReadAllLines("../../../input.txt");
 
-List<int> NOPIndexes = new();
-List<int> JMPIndexes = new();
+List<int> indexes = new();
 for (var i = 0; i < lines.Length; i++)
 {
-    if (lines[i].Contains("nop"))
-        NOPIndexes.Add(i);
-
-    if (lines[i].Contains("jmp"))
-        JMPIndexes.Add(i);
+    if (lines[i].Contains("nop") || lines[i].Contains("jmp"))
+        indexes.Add(i);
 }
 
-foreach(var nop in NOPIndexes)
+foreach(var index in indexes)
 {
     var linesCopy = new List<string>(lines).ToArray();
 
-    linesCopy[nop] = linesCopy[nop].Replace("nop", "jmp");
+    linesCopy[index] = linesCopy[index].Contains("nop") ? linesCopy[index].Replace("nop", "jmp") : linesCopy[index].Replace("jmp", "nop");
 
     int res = RunProgram(linesCopy);
 
@@ -28,39 +24,21 @@ foreach(var nop in NOPIndexes)
         Console.WriteLine(res);
 }
 
-foreach (var jmp in JMPIndexes)
-{
-    var linesCopy = new List<string>(lines).ToArray();
-
-    linesCopy[jmp] = linesCopy[jmp].Replace("jmp", "nop");
-
-    int res = RunProgram(linesCopy);
-
-    if (res != 0)
-        Console.WriteLine(res);
-}
-
-Console.WriteLine("Finished.");
-
 static int RunProgram(string[] lines)
 {
     var index = 0;
     var acc = 0;
-    List<int> visitedInstructions = new();
+    HashSet<int> visitedInstructions = new();
 
     while (true)
     {
         if (index == lines.Length)
-        {
-            Console.WriteLine($"Won with acc {acc}");
             return acc;
-        }
 
         // Shouldn't visit twice.. End
         if (visitedInstructions.Contains(index))
-        {
             return 0;
-        }
+
         visitedInstructions.Add(index);
 
         var values = lines[index].Split(" ");
