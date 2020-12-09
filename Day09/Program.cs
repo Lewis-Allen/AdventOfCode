@@ -35,11 +35,11 @@ static long PartTwo(long[] numbers, long target)
     for (int segLength = 2; segLength < numbers.Length; segLength++)
         for (int segStart = 0; segStart < (numbers.Length - segLength); segStart++)
         {
-            var elements = numbers.Skip(segStart).Take(segLength);
-            long segSum = elements.Sum();
+            var segment = numbers.Skip(segStart).Take(segLength);
+            long segSum = segment.Sum();
 
             if (segSum == target)
-                return elements.Min() + elements.Max();
+                return segment.Min() + segment.Max();
         }
 
     return 0;
