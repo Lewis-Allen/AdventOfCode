@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 
 var lines = File.ReadAllLines("../../../input.txt");
+long target = 0;
 
-for(var i = 25; i < lines.Length; i++)
+// Part One
+for (var i = 25; i < lines.Length; i++)
 {
     List<long> preamble = new();
 
@@ -19,13 +21,12 @@ for(var i = 25; i < lines.Length; i++)
     Combinations<long> combos = new Combinations<long>(preamble, 2);
     if(!combos.Any(s => s.Sum() == result))
     {
-        Console.WriteLine(result);
+        target = result;
         break;
     }
 }
 
-long target = 1398413738L;
-
+// Part Two
 for(int count = 2; count < lines.Length; count++)
     for (int i = 0; i < (lines.Length - count); i++)
     {
