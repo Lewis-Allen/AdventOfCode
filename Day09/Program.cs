@@ -4,35 +4,43 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-var lines = File.ReadAllLines("../../../input.txt")
-    .Select(long.Parse)
-    .ToList();
+var lines = Array.ConvertAll(File.ReadAllLines("../../../input.txt"), long.Parse);
 
-long target = 0;
+long target = PartOne(lines);
+long encryptionWeakness = PartTwo(lines, target);
+
+Console.WriteLine($"Target {target}, Weakness {encryptionWeakness}.");
 
 // Part One
-for (var i = 25; i < lines.Count; i++)
+static long PartOne(long[] numbers)
 {
-    long result = lines[i];
-
-    List<long> preamble = lines.Skip(i - 25).Take(25).ToList();
-
-    Combinations<long> combos = new(preamble, 2);
-
-    if(!combos.Any(s => s.Sum() == result))
+    for (var i = 25; i < numbers.Length; i++)
     {
-        target = result;
-        break;
+        long result = numbers[i];
+
+        List<long> preamble = numbers.Skip(i - 25).Take(25).ToList();
+
+        Combinations<long> combos = new(preamble, 2);
+
+        if (!combos.Any(s => s.Sum() == result))
+            return result;
     }
+
+    return 0;
 }
 
 // Part Two
-for(int segLength = 2; segLength < lines.Count; segLength++)
-    for (int segStart = 0; segStart < (lines.Count - segLength); segStart++)
-    {
-        var elements = lines.Skip(segStart).Take(segLength);
-        long segSum = elements.Sum();
+static long PartTwo(long[] numbers, long target)
+{
+    for (int segLength = 2; segLength < numbers.Length; segLength++)
+        for (int segStart = 0; segStart < (numbers.Length - segLength); segStart++)
+        {
+            var elements = numbers.Skip(segStart).Take(segLength);
+            long segSum = elements.Sum();
 
-        if (segSum == target)
-            Console.WriteLine(elements.Min() + elements.Max());
-    }
+            if (segSum == target)
+                return elements.Min() + elements.Max();
+        }
+
+    return 0;
+}
