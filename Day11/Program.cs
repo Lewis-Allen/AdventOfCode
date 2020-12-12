@@ -9,7 +9,7 @@ var lines = File.ReadAllLines("../../../input.txt");
 var current = new List<string>(lines);
 var next = new List<string>(lines);
 
-var changed = false;
+bool changed;
 do
 {
     changed = false;
@@ -75,7 +75,6 @@ static int CheckSurroundingsPartTwo(List<string> lines, int y, int x)
             break;
         }
     }
-
 
     // Right
     for (int i = x + 1; i < lines[y].Length; i++)
