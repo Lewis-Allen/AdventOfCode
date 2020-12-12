@@ -1,5 +1,5 @@
 <div align="center">
-:christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree:
+:christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman:
 <pre>
   ___      _                 _            __   _____           _        _____  _____  _____  _____ 
  / _ \    | |               | |          / _| /  __ \         | |      / __  \|  _  |/ __  \|  _  |
@@ -8,7 +8,7 @@
 | | | | (_| |\ V /  __/ | | | |_  | (_) | |   | \__/\ (_) | (_| |  __/ ./ /___\ |_/ /./ /___\ |_/ /
 \_| |_/\__,_| \_/ \___|_| |_|\__|  \___/|_|    \____/\___/ \__,_|\___| \_____/ \___/ \_____/ \___/ 
 </pre>
-:christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree:
+:christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman::christmas_tree::snowflake::christmas_tree::snowman:
 </div>
 </br>
 <div>
@@ -23,4 +23,4 @@ I'm not doing any benchmarking or golfing with this (maybe next year?).
 
 ## Solutions
 
-- [Day One](/day01)
+- [Day One](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day01)
