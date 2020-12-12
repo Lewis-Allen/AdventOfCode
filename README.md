@@ -24,3 +24,14 @@ I'm not doing any benchmarking or golfing with this (maybe next year?).
 ## Solutions
 
 - [Day One](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day01)
+- [Day Two](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day02)
+- [Day Three](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day03)
+- [Day Four](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day04)
+- [Day Five](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day05)
+- [Day Six](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day06)
+- [Day Seven](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day07)
+- [Day Eight](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day08)
+- [Day Nine](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day09)
+- [Day Ten](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day10)
+- [Day Eleven](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day11)
+- [Day Twelve](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day12)
