@@ -11,41 +11,46 @@ var y = 0;
 foreach(var line in lines)
 {
     var direction = line[0];
-    var magnitude = int.Parse(line.Substring(1, line.Length - 1));
+    var magnitude = int.Parse(line[1..]);
 
-    if(direction == 'N' || direction == 'E' || direction == 'S' || direction == 'W')
+    switch(direction)
     {
-        waypointX = direction switch
-        {
-            'E' => waypointX += magnitude,
-            'W' => waypointX -= magnitude,
-            _ => waypointX
-        };
+        case 'N':
+            waypointY += magnitude;
+            break;
+        case 'E':
+            waypointX += magnitude;
+            break;
+        case 'S':
+            waypointY -= magnitude;
+            break;
+        case 'W':
+            waypointX -= magnitude;
+            break;
+        case 'R':
+            for (var i = 0; i < magnitude / 90; i++)
+            {
+                var beforeX = waypointX;
+                var beforeY = waypointY;
 
-        waypointY = direction switch
-        {
-            'N' => waypointY += magnitude,
-            'S' => waypointY -= magnitude,
-            _ => waypointY
-        };
-    } 
-    else if (direction == 'R' || direction == 'L')
-    {
-        var directionMagnitude = magnitude / 90;
+                waypointX = beforeY;
+                waypointY = -beforeX;
+            }
+            break;
+        case 'L':
+            for (var i = 0; i < magnitude / 90; i++)
+            {
+                var beforeX = waypointX;
+                var beforeY = waypointY;
 
-        for(var i = 0; i < directionMagnitude; i++)
-        {
-            var beforeX = waypointX;
-            var beforeY = waypointY;
-
-            waypointX = direction == 'R' ? beforeY : -beforeY;
-            waypointY = direction == 'R' ? -beforeX : beforeX;
-        }
-    }
-    else
-    {
-        x += waypointX * magnitude;
-        y += waypointY * magnitude;
+                waypointX = -beforeY;
+                waypointY = beforeX;
+            }
+            break;
+        case 'F':
+            x += waypointX * magnitude;
+            y += waypointY * magnitude;
+            break;
     }
 }
 
