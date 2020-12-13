@@ -36,7 +36,7 @@ static void PartTwo(string[] lines)
             .Select(s => (long.Parse(s.value), s.index))
             .ToList();
 
-    // Sum of all values
+    // Product of all values
     long N = filteredBusIDs.Aggregate(1L, (acc, s) => acc * s.Item1);
 
     for (int i = 0; i < filteredBusIDs.Count; i++)
