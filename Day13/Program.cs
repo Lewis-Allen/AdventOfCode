@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-var lines = File.ReadAllLines("../../../Example1.txt");
+var lines = File.ReadAllLines("../../../Input.txt");
 
-//PartOne(lines);
+PartOne(lines);
 
 PartTwo(lines);
 
@@ -39,18 +39,13 @@ static void PartTwo(string[] lines)
     // Sum of all values
     long N = filteredBusIDs.Aggregate(1L, (acc, s) => acc * s.Item1);
 
-    for (int i = 0; i < busIDs.Length; i++)
+    for (int i = 0; i < filteredBusIDs.Count; i++)
     {
-        if (!long.TryParse(busIDs[i], out long busID))
-            continue;
+        long busID = filteredBusIDs[i].Item1;
 
-        long Bi = i;
+        long Bi = busID - filteredBusIDs[i].index;
         long Ni = N / busID;
         long Xi = ModuloInverse(Ni, busID);
-
-        Console.WriteLine($"Current Index: {i}");
-        Console.WriteLine($"N: {N}, BusID: {busID}, Ni: {N / busID}");
-        Console.WriteLine($"ModuloInverse({Ni},{busID}) = {Xi}");
 
         totals.Add(Bi * Ni * Xi);
     }
