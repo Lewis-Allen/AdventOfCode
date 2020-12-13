@@ -28,6 +28,7 @@ static void PartOne(string[] lines)
 }
 
 /**
+ * Part Two Solved using Sun Tzu's Art of Chinese Remainder Theorem
  * This can be done in a couple of LINQ statements (See PartTwoCondensed).
  * But if I look back on this code one day, i'll probably have no idea what I was doing.
  * So i'm keeping this one because it's more readable.
@@ -45,12 +46,6 @@ static void PartTwo(string[] lines)
 
     // Product of all values
     long N = filteredBusIDs.Aggregate(1L, (acc, s) => acc * s.Item1);
-
-    var test = filteredBusIDs
-        .Select(s => (s.Item1 - s.index) * (N / s.Item1) * ModuloInverse(N / s.Item1, s.Item1))
-        .Sum();
-
-    Console.WriteLine(test % N);
 
     for (int i = 0; i < filteredBusIDs.Count; i++)
     {
