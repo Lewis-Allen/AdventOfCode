@@ -58,18 +58,20 @@ static void PartTwo(string[] lines)
 
         if (nums.Count > 1)
         {
-            char[] index = Convert.ToString(long.Parse(nums[0].Value), 2).PadLeft(36,'0').ToCharArray();
-
+            char[] index = Convert.ToString(long.Parse(nums[0].Value), 2).PadLeft(36, '0').ToCharArray();
             long value = long.Parse(nums[1].Value);
 
+            // 1. Deal with masking the 0s and 1s.
             for (var i = 0; i < currentMask.Length; i++)
             {
-                char letter = currentMask[currentMask.Length - 1 - i];
+                char letter = currentMask[i];
 
                 if (letter != '0')
-                    index[currentMask.Length - 1 - i] = letter;
+                    index[i] = letter;
             }
 
+            // 2. Create a list of stacks, each with a unique combination of 0s and 1s.
+            //    These will be used to replace X with.
             int Xs = index.Count(c => c == 'X');
             double upper = Math.Pow(2, Xs);
             List<Stack<bool>> stacks = new();
@@ -81,10 +83,10 @@ static void PartTwo(string[] lines)
                 stacks.Add(stack);
             }
 
-            int total = 0;
+            // 3. Iterate through the stacks, replacing the Xs with a unique combination each time.
+            //    Each unique combination is saved to memory with the value for the line.
             foreach (var s in stacks)
             {
-                total++;
                 var indexCopy = new string(index).ToCharArray();
                 for(int i = 0; i < indexCopy.Length; i++)
                 {
