@@ -36,3 +36,5 @@ I'm not doing any benchmarking or golfing with this (maybe next year?).
 - [Day Eleven](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day11)
 - [Day Twelve](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day12)
 - [Day Thirteen](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day13)
+- [Day Fourteen](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day14)
+- [Day Fifteen](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day15)
