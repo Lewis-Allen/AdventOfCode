@@ -6,14 +6,10 @@ using System.Linq;
 var lines = File.ReadAllLines("../../../Input.txt").Select(s => s.Split(",")).ToArray();
 
 // Part One
-//Console.WriteLine(GetNthPosition(Array.ConvertAll(lines[0], long.Parse), 2020));
+Console.WriteLine(GetNthPosition(Array.ConvertAll(lines[0], long.Parse), 2020));
 
 // Part Two
-
-foreach (var line in lines)
-{
-    Console.WriteLine(GetNthPosition(Array.ConvertAll(line, long.Parse), 30000000L));
-}
+Console.WriteLine(GetNthPosition(Array.ConvertAll(lines[0], long.Parse), 30000000L));
 
 static long GetNthPosition(long[] numbers, long pos)
 {
@@ -29,36 +25,12 @@ static long GetNthPosition(long[] numbers, long pos)
     while(turnCounter < pos)
     {
         long prevNumber = number;
-        if (!lastTurns.ContainsKey(number))
-        {
-            number = 0;
-        }
-        else
-        {
-            number = turnCounter - lastTurns[number];
-        }
+
+        number = lastTurns.ContainsKey(number) ? turnCounter - lastTurns[number] : 0;
         lastTurns[prevNumber] = turnCounter;
 
         turnCounter++;
     }
-    /*
-    while(numbersList.Count < pos)
-    { 
-        long number = numbersList.Last();
-        if (numbersList.Count(c => c == number) < 2)
-        {
-            numbersList.Add(0);
-        }
-        else
-        {
-            long lastOccurence = Array.LastIndexOf(numbersList.SkipLast(1).ToArray(), number) + 1;
 
-            numbersList.Add(turnCounter - lastOccurence);
-        }
-
-        turnCounter++;
-    }
-
-    return numbersList.Last();*/
     return number;
 }
