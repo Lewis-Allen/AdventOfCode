@@ -5,16 +5,43 @@ using System.Linq;
 
 var lines = File.ReadAllLines("../../../Input.txt").Select(s => s.Split(",")).ToArray();
 
+// Part One
+//Console.WriteLine(GetNthPosition(Array.ConvertAll(lines[0], long.Parse), 2020));
+
+// Part Two
+
 foreach (var line in lines)
 {
-    Console.WriteLine(GetNthPosition(Array.ConvertAll(line, long.Parse), 2020));
+    Console.WriteLine(GetNthPosition(Array.ConvertAll(line, long.Parse), 30000000L));
 }
 
 static long GetNthPosition(long[] numbers, long pos)
 {
-    List<long> numbersList = numbers.ToList();
-    int turnCounter = numbersList.Count;
+    Dictionary<long, long> lastTurns = new();
+    for(var i = 1; i <= numbers.Length; i++)
+    {
+        lastTurns[numbers[i - 1]] = i;
+    }
 
+    long turnCounter = numbers.Length;
+    long number = numbers.Last();
+
+    while(turnCounter < pos)
+    {
+        long prevNumber = number;
+        if (!lastTurns.ContainsKey(number))
+        {
+            number = 0;
+        }
+        else
+        {
+            number = turnCounter - lastTurns[number];
+        }
+        lastTurns[prevNumber] = turnCounter;
+
+        turnCounter++;
+    }
+    /*
     while(numbersList.Count < pos)
     { 
         long number = numbersList.Last();
@@ -32,5 +59,6 @@ static long GetNthPosition(long[] numbers, long pos)
         turnCounter++;
     }
 
-    return numbersList.Last();
+    return numbersList.Last();*/
+    return number;
 }
