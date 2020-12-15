@@ -15,9 +15,8 @@ static long GetNthPosition(long[] numbers, long pos)
     List<long> numbersList = numbers.ToList();
     int turnCounter = numbersList.Count;
 
-    do
-    {
-        
+    while(numbersList.Count < pos)
+    { 
         long number = numbersList.Last();
         if (numbersList.Count(c => c == number) < 2)
         {
@@ -31,7 +30,7 @@ static long GetNthPosition(long[] numbers, long pos)
         }
 
         turnCounter++;
-    } while (numbersList.Count < pos);
+    }
 
     return numbersList.Last();
 }
