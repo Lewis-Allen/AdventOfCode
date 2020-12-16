@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,10 +8,11 @@ string[] lines = File.ReadAllText("../../../Input.txt").Split("\r\n\r\n");
 
 string[] rules = lines[0].Split("\r\n");
 
-string myTicket = lines[1]
+int[] myTicket = Array.ConvertAll(lines[1]
     .Split("\r\n")
     .Skip(1)
-    .First();
+    .First()
+    .Split(","), int.Parse);
 
 string[] tickets = lines[2]
     .Split("\r\n")
@@ -18,7 +20,7 @@ string[] tickets = lines[2]
     .ToArray();
 
 // Part One
-//Console.WriteLine(FindInvalidTickets(rules, tickets));
+Console.WriteLine(FindInvalidTickets(rules, tickets));
 
 // Part Two
 string[] validTickets = tickets
@@ -29,11 +31,13 @@ var ranges = Regex.Matches(string.Join(",", rules), "\\d+");
 
 var length = validTickets[0].Split(",").Length;
 
+List<List<int>> ruleCandidates = new();
+
 // Four numbers per rule;
 for(int i = 0; i < ranges.Count; i += 4)
 {
+    ruleCandidates.Add(new List<int>());
     int ruleIndex = i / 4;
-    Console.WriteLine($"Checking rule {rules[ruleIndex]}");
 
     for (int ticketIndex = 0; ticketIndex < length; ticketIndex++)
     {
@@ -53,10 +57,38 @@ for(int i = 0; i < ranges.Count; i += 4)
             }
         }
 
-        if(ruleValidForColumn)
-            Console.WriteLine($"Rule {rules[ruleIndex]} is valid for column {ticketIndex}");
+        if (ruleValidForColumn)
+        {
+            ruleCandidates[ruleIndex].Add(ticketIndex);
+        }
     }
 }
+
+List<int> found = new();
+for(var i = 0; i < 20; i++)
+{
+    var item = ruleCandidates.Find(s => s.Count == 1 && !found.Contains(s.First())).First();
+    found.Add(item);
+
+    foreach(var list in ruleCandidates) 
+    {
+        if (list.Count == 1)
+            continue;
+
+        list.Remove(item);
+    }
+}
+
+Console.WriteLine();
+
+List<int> myTicketValues = new();
+
+for(int i = 0; i < 6; i++)
+{
+    myTicketValues.Add(myTicket[ruleCandidates[i].First()]);
+}
+
+Console.WriteLine(myTicketValues.Aggregate(1L, (acc, s) => acc * s));
 
 
 static int FindInvalidTickets(string[] rules, string[] tickets)
