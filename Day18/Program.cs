@@ -15,13 +15,13 @@ Console.WriteLine($"Sum of all Values is {lines.Sum(l => Evaluate(ShuntingYard(l
  *  Post fix stack evaluator.
  *  Input file only contains + and * so I don't account for anything else.
  */
-static long Evaluate(Queue<char> things)
+static long Evaluate(Queue<char> tokens)
 {
     Stack<long> stack = new();
 
-    while(things.Count > 0)
+    while(tokens.Count > 0)
     {
-        char token = things.Dequeue();
+        char token = tokens.Dequeue();
 
         if (char.IsDigit(token))
         {
