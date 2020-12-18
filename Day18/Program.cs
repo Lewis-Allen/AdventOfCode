@@ -3,155 +3,88 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-/**
- * Note for next time - Google 'parse infix expression' and look at the first result. (Shunting-yard algorithm)
- * It's so much nicer than what I did here.
- */
-
 var lines = File.ReadAllLines("../../../Input.txt");
 
-// Printing examples then Sum of all items in file.
-Console.WriteLine("Part One: -------------------------------");
-Console.WriteLine($"1 + (2 * 3) + (4 * (5 + 6)) = {CalculateSegment("1 + (2 * 3) + (4 * (5 + 6))")}");
-Console.WriteLine($"2 * 3 + (4 * 5) = {CalculateSegment("2 * 3 + (4 * 5)")}");
-Console.WriteLine($"5 + (8 * 3 + 9 + 3 * 4 * 3) = {CalculateSegment("5 + (8 * 3 + 9 + 3 * 4 * 3)")}");
-Console.WriteLine($"5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) = {CalculateSegment("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))")}");
-Console.WriteLine($"((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 = {CalculateSegment("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2")}");
-Console.WriteLine($"Sum of all Values is {lines.Sum(l => CalculateSegment(l))}");
+// Part One
+Console.WriteLine($"Sum of all Values is {lines.Sum(l => Evaluate(ShuntingYard(l, s => 0)))}");
 
-Console.WriteLine();
-
-Console.WriteLine("Part Two: -------------------------------");
-Console.WriteLine($"1 + (2 * 3) + (4 * (5 + 6)) = {CalculateSegment(TransformLine("1 + (2 * 3) + (4 * (5 + 6))"))}");
-Console.WriteLine($"2 * 3 + (4 * 5) = {CalculateSegment(TransformLine("2 * 3 + (4 * 5)"))}");
-Console.WriteLine($"5 + (8 * 3 + 9 + 3 * 4 * 3) = {CalculateSegment(TransformLine("5 + (8 * 3 + 9 + 3 * 4 * 3)"))}");
-Console.WriteLine($"5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4)) = {CalculateSegment(TransformLine("5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))"))}");
-Console.WriteLine($"((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 = {CalculateSegment(TransformLine("((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"))}");
-Console.WriteLine($"Sum of all Values is {lines.Sum(l => CalculateSegment(TransformLine(l)))}");
+// Part Two
+Console.WriteLine($"Sum of all Values is {lines.Sum(l => Evaluate(ShuntingYard(l, s => s == '+' ? 1 : 0)))}");
 
 /**
- * This will take a line and calculate a result, giving precedence to brackets then left to right.
- * Brackets are worked out recursively.
+ *  Post fix stack evaluator.
+ *  Input file only contains + and * so I don't account for anything else.
  */
-static long CalculateSegment(string line)
+static long Evaluate(Queue<char> things)
 {
-    long acc = 0;
-    line = line.Replace(" ", "");
-    Operator currentOperator = Operator.PLUS;
+    Stack<long> stack = new();
 
-    for(int i = 0; i < line.Length; i++)
+    while(things.Count > 0)
     {
-        char currentCharacter = line[i];
-        switch(currentCharacter)
+        char token = things.Dequeue();
+
+        if (char.IsDigit(token))
         {
-            case '+':
-                currentOperator = Operator.PLUS;
-                break;
-            case '*':
-                currentOperator = Operator.MULTIPLY;
-                break;
-            case '(':
-                int closingBracket = FindClosingBracket(line, i);
-                acc = Operate(acc, CalculateSegment(line[(i + 1)..closingBracket]), currentOperator);
-                i = closingBracket;
-                break;
-            default:
-                acc = Operate(acc, int.Parse(currentCharacter.ToString()), currentOperator);
-                break;
-        }
-    }
-
-    return acc;
-}
-
-/**
- * This function takes a line and wraps every + operation in brackets to give it precedence.
- * The line can then be calculated using the above CalculateSegment function.
- */
-static string TransformLine(string line)
-{
-    line = line.Replace(" ", "");
-
-    List<char> lineList = new(line);
-
-    int currentChar = -1;
-
-    while(new string(lineList.ToArray()).IndexOf('+', currentChar + 1) != -1)
-    {
-        currentChar = new string(lineList.ToArray()).IndexOf('+', currentChar + 1);
-
-        if (lineList[currentChar + 1] != '(')
-        {
-            lineList.Insert(currentChar + 2, ')');
+            stack.Push(long.Parse(token.ToString()));
         }
         else
         {
-            int closingIndex = FindClosingBracket(new string(lineList.ToArray()), currentChar + 1);
+            long a = long.Parse(stack.Pop().ToString());
+            long b = long.Parse(stack.Pop().ToString());
 
-            lineList.Insert(closingIndex + 1, ')');
+            if (token is '*')
+                stack.Push(b * a);
+            else
+                stack.Push(b + a);
         }
-
-        if (lineList[currentChar - 1] != ')')
-        {
-            lineList.Insert(currentChar - 1, '(');
-        }
-        else
-        {
-            int openingIndex = FindOpeningBracket(new string(lineList.ToArray()), currentChar - 1);
-
-            lineList.Insert(openingIndex, '(');
-        }
-        currentChar++;
     }
-
-    return new string(lineList.ToArray());
+    return stack.Pop();
 }
 
-static int FindClosingBracket(string line, int index)
+/**
+ * Parses an infix notation string into postfix notation.
+ */
+static Queue<char> ShuntingYard(string line, Func<char, int> precedence)
 {
-    int depth = 0;
-    for(int i = index; i < line.Length; i++)
+    line = line.Replace(" ", "");
+    
+    Stack<char> operatorStack = new();
+    Queue<char> outputQueue = new();
+
+    foreach (char token in line)
     {
-        char currentChar = line[i];
-        if (currentChar == '(')
-            depth++;
+        if (char.IsDigit(token))
+        {
+            outputQueue.Enqueue(token);
+        } 
+        else if (token is '*' or '+')
+        {
+            while(operatorStack.Count > 0 && 
+                  precedence(operatorStack.Peek()) >= precedence(token) && 
+                  operatorStack.Peek() is not '(')
+            {
+                outputQueue.Enqueue(operatorStack.Pop());
+            }
 
-        if (currentChar == ')')
-            depth--;
+            operatorStack.Push(token);
+        }
+        else if (token is '(')
+        {
+            operatorStack.Push(token);
+        }
+        else if (token is ')')
+        {
+            while(operatorStack.Peek() is not '(')
+                outputQueue.Enqueue(operatorStack.Pop());
 
-        if (currentChar == ')' && depth == 0)
-            return i;
+            if (operatorStack.Peek() is '(')
+                operatorStack.Pop();
+        }
+
     }
-    return -1;
+
+    while(operatorStack.Count > 0)
+        outputQueue.Enqueue(operatorStack.Pop());
+
+    return outputQueue;
 }
-
-static int FindOpeningBracket(string line, int index)
-{
-    int depth = 0;
-    for (int i = index; i >= 0; i--)
-    {
-        char currentChar = line[i];
-        if (currentChar == ')')
-            depth++;
-
-        if (currentChar == '(')
-            depth--;
-
-        if (currentChar == '(' && depth == 0)
-            return i;
-    }
-    return -1;
-}
-
-static long Operate(long acc, long amt, Operator operation) => operation switch
-{
-    Operator.PLUS => acc + amt,
-    Operator.MULTIPLY => acc * amt,
-};
-
-enum Operator
-{
-    PLUS,
-    MULTIPLY
-}
-
