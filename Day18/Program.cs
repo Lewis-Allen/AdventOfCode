@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+
+/**
+ * Note for next time - Google 'parse infix expression' and look at the first result. (Shunting-yard algorithm)
+ * It's so much nicer than what I did here.
+ */
 
 var lines = File.ReadAllLines("../../../Input.txt");
 
