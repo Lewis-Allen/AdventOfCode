@@ -46,8 +46,6 @@ static long Evaluate(Queue<char> tokens)
  */
 static Queue<char> ShuntingYard(string line, Func<char, int> precedence)
 {
-    line = line.Replace(" ", "");
-    
     Stack<char> operatorStack = new();
     Queue<char> outputQueue = new();
 
