@@ -167,19 +167,19 @@ namespace Day20
             return configs;
         }
 
-        public char[][] Rotate(char[][] tile)
+        public static char[][] Rotate(char[][] tile)
         {
-            char[][] chars = new char[10][];
+            char[][] chars = new char[tile.Length][];
             for (int i = 0; i < chars.Length; i++)
             {
-                chars[i] = new char[10];
+                chars[i] = new char[tile.Length];
             }
 
-            for (int i = 0; i < tile.Length; ++i)
+            for (int i = 0; i < tile.Length; i++)
             {
-                for (int j = 0; j < tile.Length; ++j)
+                for (int j = 0; j < tile.Length; j++)
                 {
-                    chars[i][j] = tile[Value.Length - j - 1][i];
+                    chars[i][j] = tile[tile.Length - j - 1][i];
                 }
             }
 
@@ -188,10 +188,10 @@ namespace Day20
 
         public static char[][] FlipH(char[][] tile)
         {
-            char[][] chars = new char[10][];
+            char[][] chars = new char[tile.Length][];
             for (int i = 0; i < chars.Length; i++)
             {
-                chars[i] = new char[10];
+                chars[i] = new char[tile.Length];
             }
 
             for (int x = 0; x < tile.Length / 2; x++)
@@ -209,10 +209,10 @@ namespace Day20
 
         public static char[][] FlipV(char[][] tile)
         {
-            char[][] chars = new char[10][];
+            char[][] chars = new char[tile.Length][];
             for (int i = 0; i < chars.Length; i++)
             {
-                chars[i] = new char[10];
+                chars[i] = new char[tile.Length];
             }
 
             for (int x = 0; x < tile.Length; x++)
