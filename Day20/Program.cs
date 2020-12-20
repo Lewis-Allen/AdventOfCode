@@ -5,21 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-var lines = File.ReadAllText("../../../Input.txt").Split("\r\n\r\n");
-var linesSplit = lines.Select(s => s.Split("\r\n")).ToArray();
+var items = File.ReadAllText("../../../Input.txt")
+    .Split("\r\n\r\n")
+    .Select(s => s.Split("\r\n"))
+    .Select(s => new Tile(long.Parse(Regex.Match(s[0], "\\d+").Value), s.Skip(1).Select(s => s.ToCharArray()).ToArray()))
+    .ToList();
 
-Dictionary<long, char[][]> tiles = new();
-foreach (var entry in linesSplit)
-{
-    tiles.Add(long.Parse(Regex.Match(entry[0], "\\d+").Value), entry.Skip(1).Select(s => s.ToCharArray()).ToArray());
-}
-
-// Start with arbritrary tile
-var items = tiles.Select(s => new Tile(s.Key, s.Value)).ToList();
-
+// Part One
 Tile current = items.First();
 current.FindNeighbours(items);
 
+// We know the map is a square so corners can be found by looking for tiles that have exactly 2 neighbours.
 var cornerMult = items.Where(s =>
 {
     int count = (s.Top is not null ? 1 : 0) +
@@ -30,11 +26,9 @@ var cornerMult = items.Where(s =>
     return count == 2;
 }).Select(tile => tile.ID).Aggregate((acc, t) => acc * t);
 
-Console.WriteLine(cornerMult);
+Console.WriteLine($"The product of all the corner IDs is {cornerMult}.");
 
 // Part Two
-
-// I want to put the puzzle together into a nice string array...
 var topLeftCorner = items.Find(t =>
 {
     int count = (t.Top is not null ? 1 : 0) +
@@ -45,9 +39,9 @@ var topLeftCorner = items.Find(t =>
     return count == 2 && t.Top is null && t.Left is null;
 });
 
+Tile currentTile = null;
 List<string> puzzleLines = new();
 
-Tile currentTile = null;
 do
 {
     currentTile = currentTile is null ? topLeftCorner : currentTile.Bottom;
@@ -66,15 +60,8 @@ do
     }
 } while (currentTile.Bottom is not null);
 
-
-foreach(var puzzleLine in puzzleLines)
-{
-    Console.WriteLine(puzzleLine);
-}
-
 var puzzleCharArray = puzzleLines.Select(s => s.ToCharArray()).ToArray();
 int seaMonsters = 0;
-int tilesPerMonster = 15;
 
 List<(int, int)> positions = new()
 {
@@ -94,8 +81,9 @@ List<(int, int)> positions = new()
     (18, 0),
     (19, 1)
 };
+int tilesPerMonster = positions.Count;
 
-foreach (var config in GetConfigs(puzzleCharArray))
+foreach (var config in GetConfigsForMap(puzzleCharArray))
 {
     for(int y = 0; y < config.Length - 3; y++)
     {
@@ -120,13 +108,12 @@ foreach (var config in GetConfigs(puzzleCharArray))
         break;
 }
 
-Console.WriteLine(seaMonsters);
 var hashCount = puzzleLines.Sum(s => s.Count(c => c == '#')) - (seaMonsters * tilesPerMonster);
 
-Console.WriteLine(hashCount);
+Console.WriteLine($"There are {seaMonsters} sea monsters leaving {hashCount} hashes on the map.");
 
 
-static List<char[][]> GetConfigs(char[][] input)
+static List<char[][]> GetConfigsForMap(char[][] input)
 {
     List<char[][]> configs = new();
     char[][] orig = new char[input.Length][];

@@ -121,19 +121,6 @@ namespace Day20
 
         public List<char[][]> GetConfigs()
         {
-            //Standard
-                // tile.Rotate()
-                // tile.Rotate()
-                // tile.Rotate()
-            // FlipY
-                // tile.Rotate()
-                // tile.Rotate()
-                // tile.Rotate()
-            // FlipX
-                // tile.Rotate()
-                // tile.Rotate()
-                // tile.Rotate()
-
             List<char[][]> configs = new();
             char[][] orig = new char[10][];
             Array.Copy(Value, orig, 10);
