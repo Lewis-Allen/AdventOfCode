@@ -1,94 +1,33 @@
-﻿using System;
+﻿using Day20;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-var lines = File.ReadAllText("../../../Example1.txt").Split("\r\n\r\n");
+var lines = File.ReadAllText("../../../Input.txt").Split("\r\n\r\n");
 var linesSplit = lines.Select(s => s.Split("\r\n")).ToArray();
 
-Dictionary<int, char[][]> tiles = new();
+Dictionary<long, char[][]> tiles = new();
 foreach (var entry in linesSplit)
 {
-    tiles.Add(int.Parse(Regex.Match(entry[0], "\\d+").Value), entry.Skip(1).Select(s => s.ToCharArray()).ToArray());
+    tiles.Add(long.Parse(Regex.Match(entry[0], "\\d+").Value), entry.Skip(1).Select(s => s.ToCharArray()).ToArray());
 }
 
-foreach(var key in tiles.Keys)
+// Start with arbritrary tile
+var items = tiles.Select(s => new Tile(s.Key, s.Value)).ToList();
+
+Tile current = items.First();
+current.FindNeighbours(items);
+
+var cornerMult = items.Where(s =>
 {
-    var tile = tiles[key];
-    Console.WriteLine($"{key.ToString().PadRight(10, '-')} Rotated--- FlipH----- FlipV-----");
+    int count = (s.Top is not null ? 1 : 0) +
+                (s.Right is not null ? 1 : 0) +
+                (s.Bottom is not null ? 1 : 0) +
+                (s.Left is not null ? 1 : 0);
 
-    var rotated = Rotate(tile);
-    var flipH = FlipH(tile);
-    var flipV = FlipV(tile);
+    return count == 2;
+}).Select(tile => tile.ID).Aggregate((acc, t) => acc * t);
 
-    for(int i = 0; i < tile.Length; i++)
-    {
-        Console.WriteLine($"{new string(tile[i])} {new string(rotated[i])} {new string(flipH[i])} {new string(flipV[i])}");
-    }
-
-    Console.WriteLine();
-}
-
-static char[][] Rotate(char[][] tile)
-{
-    char[][] chars = new char[10][];
-    for (int i = 0; i < chars.Length; i++)
-    {
-        chars[i] = new char[10];
-    }
-
-    for (int i = 0; i < tile.Length; ++i)
-    {
-        for (int j = 0; j < tile.Length; ++j)
-        {
-            chars[i][j] = tile[tile.Length - j - 1][i];
-        }
-    }
-
-    return chars;
-}
-
-static char[][] FlipH(char[][] tile)
-{
-    char[][] chars = new char[10][];
-    for (int i = 0; i < chars.Length; i++)
-    {
-        chars[i] = new char[10];
-    }
-
-    for (int x = 0; x < tile.Length / 2; x++)
-    {
-        for (int y = 0; y < tile.Length; y++)
-        {
-            var temp = tile[y][x];
-            chars[y][x] = tile[y][tile.Length - 1 - x];
-            chars[y][tile.Length - 1 - x] = temp;
-        }
-    }
-
-    return chars;
-}
-
-static char[][] FlipV(char[][] tile)
-{
-    char[][] chars = new char[10][];
-    for (int i = 0; i < chars.Length; i++)
-    {
-        chars[i] = new char[10];
-    }
-
-    for (int x = 0; x < tile.Length; x++)
-    {
-        for(int y = 0; y < tile.Length / 2; y++)
-        {
-            var temp = tile[y][x];
-            chars[y][x] = tile[tile.Length - 1 - y][x];
-            chars[tile.Length - 1 - y][x] = temp;
-        }
-    }
-
-    return chars;
-}
-
-Console.WriteLine(  );
+Console.WriteLine(cornerMult);
