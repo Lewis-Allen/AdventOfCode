@@ -6,10 +6,8 @@ using System.Text.RegularExpressions;
 // Part One
 var lines = File.ReadAllText("../../../Input.txt").Split("\r\n\r\n");
 
-var rules = lines[0].Split("\r\n");
+var rules = lines[0].Split("\r\n").OrderBy(r => int.Parse(Regex.Match(r, "\\d+").Value)).ToArray();
 var messages = lines[1].Split("\r\n");
-
-rules = rules.OrderBy(r => int.Parse(Regex.Match(r, "\\d+").Value)).ToArray();
 
 var index = rules.ToList().FindIndex(s => Regex.IsMatch(s, $"^0:"));
 var regexString = RegexString(" " + Regex.Match(rules[index], "(?<=(: )).*").Value + " ", rules);
@@ -39,10 +37,8 @@ Console.WriteLine($"Part One Matching Rules = {count}.");
  */
 lines = File.ReadAllText("../../../Input2.txt").Split("\r\n\r\n");
 
-rules = lines[0].Split("\r\n");
+rules = lines[0].Split("\r\n").OrderBy(r => int.Parse(Regex.Match(r, "\\d+").Value)).ToArray(); ;
 messages = lines[1].Split("\r\n");
-
-rules = rules.OrderBy(r => int.Parse(Regex.Match(r, "\\d+").Value)).ToArray();
 
 index = rules.ToList().FindIndex(s => Regex.IsMatch(s, $"^0:"));
 regexString = RegexString(" " + Regex.Match(rules[index], "(?<=(: )).*").Value + " ", rules);
