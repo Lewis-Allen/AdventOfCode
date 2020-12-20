@@ -14,35 +14,12 @@ namespace Day20
         public Tile Right { get; set; }
         public Tile Bottom { get; set; }
         public Tile Left { get; set; }
-
         public bool Fixed { get; set; } = false;
 
         public Tile(long id, char[][] values)
         {
             ID = id;
             Value = values;
-        }
-
-        public static char[] RightSide(char[][] chars)
-        {
-            char[] rightSide = new char[chars.Length];
-            for (var i = 0; i < chars.Length; i++)
-            {
-                rightSide[i] = chars[i][chars.Length - 1];
-            }
-
-            return rightSide;
-        }
-
-        public static char[] LeftSide(char[][] chars)
-        {
-            char[] leftSide = new char[chars.Length];
-            for (var i = 0; i < chars.Length; i++)
-            {
-                leftSide[i] = chars[i][0];
-            }
-
-            return leftSide;
         }
 
         public void FindNeighbours(List<Tile> tiles)
@@ -96,7 +73,7 @@ namespace Day20
                             tile.FindNeighbours(tiles);
                         }
 
-                        if (Left is null && tile.Right is null && Enumerable.SequenceEqual(LeftSide(Value), RightSide(config)))
+                        if (Left is null && tile.Right is null && Enumerable.SequenceEqual(LeftSide(thisConfig), RightSide(config)))
                         {
                             Value = thisConfig;
                             tile.Value = config;
@@ -152,6 +129,28 @@ namespace Day20
             }
 
             return configs;
+        }
+
+        public static char[] RightSide(char[][] chars)
+        {
+            char[] rightSide = new char[chars.Length];
+            for (var i = 0; i < chars.Length; i++)
+            {
+                rightSide[i] = chars[i][chars.Length - 1];
+            }
+
+            return rightSide;
+        }
+
+        public static char[] LeftSide(char[][] chars)
+        {
+            char[] leftSide = new char[chars.Length];
+            for (var i = 0; i < chars.Length; i++)
+            {
+                leftSide[i] = chars[i][0];
+            }
+
+            return leftSide;
         }
 
         public static char[][] Rotate(char[][] tile)

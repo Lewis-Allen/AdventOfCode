@@ -112,7 +112,6 @@ var hashCount = puzzleLines.Sum(s => s.Count(c => c == '#')) - (seaMonsters * ti
 
 Console.WriteLine($"There are {seaMonsters} sea monsters leaving {hashCount} hashes on the map.");
 
-
 static List<char[][]> GetConfigsForMap(char[][] input)
 {
     List<char[][]> configs = new();
