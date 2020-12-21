@@ -19,25 +19,22 @@ foreach (var line in lines)
     linesLookup[allergens] = ingredients;
 }
 
-List<string> foundAllergens = new();
-
-var allAllergens = linesLookup.Keys
+HashSet<string> allAllergens = linesLookup.Keys
     .Skip(1)
     .Aggregate(
-    new HashSet<string>(linesLookup.Keys.First()),
-    (h, e) => { h.UnionWith(e); return h; }
-);
+        new HashSet<string>(linesLookup.Keys.First()),
+        (h, e) => { h.UnionWith(e); return h; }
+    );
 
-while (foundAllergens.Count < allAllergens.Count)
+while (allergensLookup.Keys.Count < allAllergens.Count)
 {
-    foreach (var allergen in allAllergens)
+    foreach (var allergen in allAllergens.Where(s => !allergensLookup.ContainsKey(s)))
     {
-        if (foundAllergens.Contains(allergen))
-            continue;
+        var linesContainingAllergen = linesLookup
+            .Where(l => l.Key.Contains(allergen))
+            .Select(l => l.Value);
 
-        var linesContainingAllergen = linesLookup.Where(l => l.Key.Contains(allergen)).Select(l => l.Value);
-
-        var allergyPossibilites = linesContainingAllergen
+        HashSet<string> allergyPossibilites = linesContainingAllergen
             .Skip(1)
             .Aggregate(
                 new HashSet<string>(linesContainingAllergen.First()),
@@ -47,10 +44,8 @@ while (foundAllergens.Count < allAllergens.Count)
         if (allergyPossibilites.Count == 1)
         {
             allergensLookup[allergen] = allergyPossibilites.First();
-            foundAllergens.Add(allergen);
 
-            var keys = linesLookup.Keys;
-            foreach(var key in keys)
+            foreach(var key in linesLookup.Keys)
             {
                 linesLookup[key].Remove(allergyPossibilites.First());
             }
@@ -64,7 +59,7 @@ Console.WriteLine($"Safe ingredient occurences: {safeIngredients}.");
 
 // Part Two
 StringBuilder sb = new("");
-foreach(var allergen in allergensLookup.Keys.ToList().OrderBy(x => x).ToList())
+foreach(var allergen in allergensLookup.Keys.ToList().OrderBy(x => x))
 {
     sb.Append(allergensLookup[allergen] + ",");
 }
