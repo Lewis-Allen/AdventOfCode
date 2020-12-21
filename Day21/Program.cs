@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 var lines = File.ReadAllLines("../../../Input.txt");
 
 Dictionary<string[], List<string>> linesLookup = new();
-Dictionary<string, string> allergensLookup = new();
+SortedDictionary<string, string> allergensLookup = new();
 
 // Parse file into dictionary:
 foreach (var line in lines)
@@ -49,20 +49,14 @@ while (allergensLookup.Keys.Count < allAllergens.Count)
             {
                 linesLookup[key].Remove(allergyPossibilites.First());
             }
-
         }
     }
 }
 
+// Part One
 int safeIngredients = linesLookup.Sum(s => s.Value.Count);
-Console.WriteLine($"Safe ingredient occurences: {safeIngredients}.");
+Console.WriteLine($"Safe ingredient occurrences: {safeIngredients}.");
 
 // Part Two
-StringBuilder sb = new("");
-foreach(var allergen in allergensLookup.Keys.ToList().OrderBy(x => x))
-{
-    sb.Append(allergensLookup[allergen] + ",");
-}
-
-string canonicalList = sb.ToString()[0..^1];
+string canonicalList = string.Join(",", allergensLookup.Values);
 Console.WriteLine($"My canonical list is {canonicalList}.");
