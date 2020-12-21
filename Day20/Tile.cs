@@ -64,6 +64,7 @@ namespace Day20
                         {
                             Value = thisConfig;
                             tile.Value = config;
+
                             Bottom = tile;
                             tile.Top = this;
 
@@ -77,6 +78,7 @@ namespace Day20
                         {
                             Value = thisConfig;
                             tile.Value = config;
+
                             Left = tile;
                             tile.Right = this;
 

@@ -61,8 +61,8 @@ do
 } while (currentTile.Bottom is not null);
 
 var puzzleCharArray = puzzleLines.Select(s => s.ToCharArray()).ToArray();
-int seaMonsters = 0;
 
+// Co-ord positions for a sea monster.
 List<(int, int)> positions = new()
 {
     (0, 1),
@@ -83,23 +83,15 @@ List<(int, int)> positions = new()
 };
 int tilesPerMonster = positions.Count;
 
+int seaMonsters = 0;
+
 foreach (var config in GetConfigsForMap(puzzleCharArray))
 {
     for(int y = 0; y < config.Length - 3; y++)
     {
         for(int x = 0; x < config[y].Length - 20; x++)
         {
-            bool isSeaMonster = true;
-            foreach(var pos in positions)
-            {
-                if(config[y + pos.Item2][x + pos.Item1] != '#')
-                {
-                    isSeaMonster = false;
-                    break;
-                }
-            }
-
-            if(isSeaMonster)
+            if (positions.All(a => config[y + a.Item2][x + a.Item1] == '#'))
                 seaMonsters++;
         }
     }
