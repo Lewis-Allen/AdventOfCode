@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 var lines = File.ReadAllLines("../../../Input.txt");
@@ -55,11 +56,18 @@ while (foundAllergens.Count < allAllergens.Count)
             }
 
         }
-
-        Console.WriteLine($"Allergen {allergen} - Possibilities {string.Join(",", allergyPossibilites)}.");
     }
 }
 
 int safeIngredients = linesLookup.Sum(s => s.Value.Count);
-
 Console.WriteLine($"Safe ingredient occurences: {safeIngredients}.");
+
+// Part Two
+StringBuilder sb = new("");
+foreach(var allergen in allergensLookup.Keys.ToList().OrderBy(x => x).ToList())
+{
+    sb.Append(allergensLookup[allergen] + ",");
+}
+
+string canonicalList = sb.ToString()[0..^1];
+Console.WriteLine($"My canonical list is {canonicalList}.");
