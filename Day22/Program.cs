@@ -28,7 +28,6 @@ while(p1.Count > 0 && p2.Count > 0)
         p2.Enqueue(p2current);
         p2.Enqueue(p1current);
     }
-
 }
 
 long acc = 0;
@@ -41,7 +40,7 @@ for (int i = winner.Count - 1; i >= 0; i--)
 Console.WriteLine($"Part 1: The winning player's score is {acc}.");
 
 // Part Two
-var (winningPlayer, winningDeck) = PlayGame(new(lines[0]), new(lines[1]));
+var (winningPlayer, winningDeck) = RecursiveCombat(new(lines[0]), new(lines[1]));
 
 acc = 0;
 for (int i = winningDeck.Count - 1; i >= 0; i--)
@@ -52,58 +51,50 @@ for (int i = winningDeck.Count - 1; i >= 0; i--)
 Console.WriteLine($"Game 2: The winning player's score is {acc}.");
 
 /// <summary>
-/// Returns whether P1 won and the deck.
+/// Returns whether P1 won and the winning deck.
 /// </summary>
-static (bool, Queue<long>) PlayGame(Queue<long> p1, Queue<long> p2)
+static (bool, Queue<long>) RecursiveCombat(Queue<long> p1, Queue<long> p2)
 {
-    List<Queue<long>> p1History = new();
-    List<Queue<long>> p2History = new();
+    List<Queue<long>> p1history = new();
+    List<Queue<long>> p2history = new();
 
     bool p1winner = false;
     while (p1.Count > 0 && p2.Count > 0)
     {
-        if (p1History.Any(s => Enumerable.SequenceEqual(p1, s)) &&
-           p2History.Any(s => Enumerable.SequenceEqual(p2, s)))
+        if (p1history.Any(s => Enumerable.SequenceEqual(p1, s)) &&
+           p2history.Any(s => Enumerable.SequenceEqual(p2, s)))
         {
             p1winner = true;
             break;
         }
 
-        p1History.Add(new(p1));
-        p2History.Add(new(p2));
+        p1history.Add(new(p1));
+        p2history.Add(new(p2));
 
-        var p1Current = p1.Dequeue();
-        var p2Current = p2.Dequeue();
+        var p1current = p1.Dequeue();
+        var p2current = p2.Dequeue();
 
-        if(p1.Count >= p1Current && p2.Count >= p2Current)
+        if(p1.Count >= p1current && p2.Count >= p2current)
         {
-            Queue<long> p1Copy = new();
-            Queue<long> p2Copy = new();
-
-            for (int i = 0; i < p1Current; i++)
-            {
-                p1Copy.Enqueue(p1.ElementAt(i));
-            }
-            for (int i = 0; i < p2Current; i++)
-            {
-                p2Copy.Enqueue(p2.ElementAt(i));
-            }
-            p1winner = PlayGame(new(p1Copy), new(p2Copy)).Item1;
+            Queue<long> p1Copy = new(p1.Take((int)p1current));
+            Queue<long> p2Copy = new(p2.Take((int)p2current));
+            
+            p1winner = RecursiveCombat(p1Copy, p2Copy).Item1;
         }
         else
         {
-            p1winner = p1Current > p2Current;
+            p1winner = p1current > p2current;
         }
 
         if (p1winner)
         {
-            p1.Enqueue(p1Current);
-            p1.Enqueue(p2Current);
+            p1.Enqueue(p1current);
+            p1.Enqueue(p2current);
         }
         else
         {
-            p2.Enqueue(p2Current);
-            p2.Enqueue(p1Current);
+            p2.Enqueue(p2current);
+            p2.Enqueue(p1current);
         }
     }
 
