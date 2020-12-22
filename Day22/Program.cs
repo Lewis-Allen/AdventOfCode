@@ -15,8 +15,8 @@ Queue<long> p2 = new(lines[1]);
 // Part One
 while(p1.Count > 0 && p2.Count > 0)
 {
-    var p1current = p1.Dequeue();
-    var p2current = p2.Dequeue();
+    long p1current = p1.Dequeue();
+    long p2current = p2.Dequeue();
 
     if(p1current > p2current)
     {
@@ -31,7 +31,7 @@ while(p1.Count > 0 && p2.Count > 0)
 }
 
 long acc = 0;
-var winner = p1.Count > 0 ? p1 : p2;
+Queue<long> winner = p1.Count > 0 ? p1 : p2;
 for (int i = winner.Count - 1; i >= 0; i--)
 {
     acc += winner.ElementAt(i) * (winner.Count - i);
@@ -40,7 +40,7 @@ for (int i = winner.Count - 1; i >= 0; i--)
 Console.WriteLine($"Part 1: The winning player's score is {acc}.");
 
 // Part Two
-var (winningPlayer, winningDeck) = RecursiveCombat(new(lines[0]), new(lines[1]));
+(bool winningPlayer, Queue<long> winningDeck) = RecursiveCombat(new(lines[0]), new(lines[1]));
 
 acc = 0;
 for (int i = winningDeck.Count - 1; i >= 0; i--)
@@ -71,8 +71,8 @@ static (bool, Queue<long>) RecursiveCombat(Queue<long> p1, Queue<long> p2)
         p1history.Add(new(p1));
         p2history.Add(new(p2));
 
-        var p1current = p1.Dequeue();
-        var p2current = p2.Dequeue();
+        long p1current = p1.Dequeue();
+        long p2current = p2.Dequeue();
 
         if(p1.Count >= p1current && p2.Count >= p2current)
         {
