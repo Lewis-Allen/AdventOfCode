@@ -9,8 +9,8 @@ var lines = File.ReadAllText("../../../Input.txt")
     .Select(k => new Queue<long>(Array.ConvertAll(k, long.Parse)))
     .ToArray();
 
-var p1 = lines[0];
-var p2 = lines[1];
+Queue<long> p1 = new(lines[0]);
+Queue<long> p2 = new(lines[1]);
 
 // Part One
 while(p1.Count > 0 && p2.Count > 0)
@@ -38,4 +38,74 @@ for (int i = winner.Count - 1; i >= 0; i--)
     acc += winner.ElementAt(i) * (winner.Count - i);
 }
 
-Console.WriteLine($"The winning player's score is {acc}.");
+Console.WriteLine($"Part 1: The winning player's score is {acc}.");
+
+// Part Two
+var (winningPlayer, winningDeck) = PlayGame(new(lines[0]), new(lines[1]));
+
+acc = 0;
+for (int i = winningDeck.Count - 1; i >= 0; i--)
+{
+    acc += winningDeck.ElementAt(i) * (winningDeck.Count - i);
+}
+
+Console.WriteLine($"Game 2: The winning player's score is {acc}.");
+
+/// <summary>
+/// Returns whether P1 won and the deck.
+/// </summary>
+static (bool, Queue<long>) PlayGame(Queue<long> p1, Queue<long> p2)
+{
+    List<Queue<long>> p1History = new();
+    List<Queue<long>> p2History = new();
+
+    bool p1winner = false;
+    while (p1.Count > 0 && p2.Count > 0)
+    {
+        if (p1History.Any(s => Enumerable.SequenceEqual(p1, s)) &&
+           p2History.Any(s => Enumerable.SequenceEqual(p2, s)))
+        {
+            p1winner = true;
+            break;
+        }
+
+        p1History.Add(new(p1));
+        p2History.Add(new(p2));
+
+        var p1Current = p1.Dequeue();
+        var p2Current = p2.Dequeue();
+
+        if(p1.Count >= p1Current && p2.Count >= p2Current)
+        {
+            Queue<long> p1Copy = new();
+            Queue<long> p2Copy = new();
+
+            for (int i = 0; i < p1Current; i++)
+            {
+                p1Copy.Enqueue(p1.ElementAt(i));
+            }
+            for (int i = 0; i < p2Current; i++)
+            {
+                p2Copy.Enqueue(p2.ElementAt(i));
+            }
+            p1winner = PlayGame(new(p1Copy), new(p2Copy)).Item1;
+        }
+        else
+        {
+            p1winner = p1Current > p2Current;
+        }
+
+        if (p1winner)
+        {
+            p1.Enqueue(p1Current);
+            p1.Enqueue(p2Current);
+        }
+        else
+        {
+            p2.Enqueue(p2Current);
+            p2.Enqueue(p1Current);
+        }
+    }
+
+    return (p1winner, p1winner ? p1 : p2);
+}
