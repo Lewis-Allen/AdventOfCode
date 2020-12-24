@@ -31,3 +31,27 @@ static Stack<Direction> ParseLine(string line)
 
     return directions;
 }
+
+// Part Two
+var daysPassed = 0;
+while(daysPassed < 100)
+{
+    var toFlips = lookup.Values.ToList();
+    foreach(var toFlip in toFlips)
+    {
+        toFlip.GetAdjacents(lookup);
+    }
+    toFlips = lookup.Values.ToList();
+
+    toFlips = toFlips.Where(cell =>
+    {
+        var count = cell.GetAdjacents(lookup).Count(cell => !cell.White);
+        return (cell.White && count is 2) || ((!cell.White) && count is 0 or > 2);
+    }).ToList();
+
+    toFlips.ForEach(cell => cell.White = !cell.White);
+
+    daysPassed++;
+    int blackTileCount = lookup.Values.Count(cell => !cell.White);
+    Console.WriteLine($"Days Passed: {daysPassed}, Number of black tiles: {blackTileCount}.");
+}

@@ -30,9 +30,6 @@ namespace Day24
             if(directions.Count == 0)
             {
                 White = !White;
-                string colour = White ? "White" : "Black";
-                Console.WriteLine($"Flipped {Pos} to {colour}.");
-
                 return White;
             }
             else
@@ -85,7 +82,6 @@ namespace Day24
                         {
                             Pos location = new(Pos.X - 1, Pos.Y + 1);
                             NW = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
-
                         }
                         return NW.Transverse(directions, lookup);
 
@@ -93,6 +89,55 @@ namespace Day24
                         return true;
                 }
             }
+        }
+
+        public List<HexCell> GetAdjacents(Dictionary<Pos, HexCell> lookup)
+        {
+            List<HexCell> adj = new();
+
+            if (NE is null)
+            {
+                Pos location = new(Pos.X + 1, Pos.Y + 1);
+                NE = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(NE);
+
+            if (E is null)
+            {
+                Pos location = new(Pos.X + 2, Pos.Y);
+                E = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(E);
+
+            if (SE is null)
+            {
+                Pos location = new(Pos.X + 1, Pos.Y - 1);
+                SE = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(SE);
+
+            if (SW is null)
+            {
+                Pos location = new(Pos.X - 1, Pos.Y - 1);
+                SW = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(SW);
+
+            if (W is null)
+            {
+                Pos location = new(Pos.X - 2, Pos.Y);
+                W = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(W);
+
+            if (NW is null)
+            {
+                Pos location = new(Pos.X - 1, Pos.Y + 1);
+                NW = lookup.ContainsKey(location) ? lookup[location] : new HexCell(location, true, lookup);
+            }
+            adj.Add(NW);
+
+            return adj;
         }
     }
 }
