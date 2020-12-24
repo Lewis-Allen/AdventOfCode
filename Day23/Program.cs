@@ -114,13 +114,13 @@ while(movesCompleted < NO_OF_MOVES)
 
     MyLinkedListNode<long> destination = NodeLocations[(long)predecessorValue];
 
-    long? currentNodeNext = destination.Next?.Value;
-    long? destNext = currentNode.Next.Next.Next.Next?.Value;
-    long? currentNodeNextNextNextNext = currentNode.Next?.Value;
+    var destNext = destination.Next;
+    var currentNodeNextNextNextNext = currentNode.Next.Next.Next.Next;
+    var currentNodeNext = currentNode.Next;
 
-    destination.Next = currentNodeNextNextNextNext is null ? null : NodeLocations[(long)currentNodeNextNextNextNext];
-    destination.Next.Next.Next.Next = currentNodeNext is null ? null : NodeLocations[(long)currentNodeNext];
-    currentNode.Next = destNext is null ? null : NodeLocations[(long)destNext];
+    destination.Next = currentNodeNext; 
+    destination.Next.Next.Next.Next = destNext;
+    currentNode.Next = currentNodeNextNextNextNext;
 
     currentNode = currentNode.Next;
 
