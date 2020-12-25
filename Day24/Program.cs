@@ -23,11 +23,9 @@ Console.WriteLine($"The number of black tiles is {flippedTileCount}.");
 
 static Stack<Direction> ParseLine(string line)
 {
-    Stack<Direction> directions = new();
-
     var matches = Regex.Matches(line, "(ne)|(nw)|(se)|(sw)|(e)|(w)");
 
-    directions = new(matches.Select(m => (Direction)Enum.Parse(typeof(Direction), m.Value.ToUpper())).ToList());
+    Stack<Direction> directions = new(matches.Select(m => (Direction)Enum.Parse(typeof(Direction), m.Value.ToUpper())).ToList());
 
     return directions;
 }
