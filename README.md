@@ -47,3 +47,4 @@ I'm not doing any benchmarking or golfing with this (maybe next year?).
 - [Day Twenty-Two](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day22)
 - [Day Twenty-Three](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day23)
 - [Day Twenty-Four](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day24)
+- [Day Twenty-Five](https://github.com/Lewis-Allen/AdventOfCode2020/tree/master/Day25)
