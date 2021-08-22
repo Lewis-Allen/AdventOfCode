@@ -57,7 +57,7 @@ static bool RunForPartTwo(string program, int noun, int verb, int expected)
             return true;
         }
     }
-    catch (Exception _)
+    catch (Exception)
     {
         // Program not valid. Return fail.
     }
