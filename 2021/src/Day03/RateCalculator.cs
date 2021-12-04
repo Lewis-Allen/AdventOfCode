@@ -39,8 +39,7 @@ public class RateCalculator
             var mostCommon = GetMostCommonBit(binary, position);
 
             binary = binary
-                .Where(b => (keepMatches && b[position] == mostCommon) || 
-                            (!keepMatches && b[position] != mostCommon))
+                .Where(b => keepMatches == (b[position] == mostCommon))
                 .ToArray();
 
             position++;
