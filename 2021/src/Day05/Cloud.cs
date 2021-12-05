@@ -5,6 +5,7 @@ namespace Day05;
 public record Cloud(int X1, int Y1, int X2, int Y2)
 {
     private static readonly Regex CLOUD_EXPRESSION = new(@"(\d+),(\d+) -> (\d+),(\d+)", RegexOptions.Compiled);
+
     public static Cloud FromString(string line)
     {
         var match = CLOUD_EXPRESSION.Match(line);
