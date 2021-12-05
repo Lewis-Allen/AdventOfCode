@@ -20,9 +20,15 @@ public class CloudCalculatorTests
             new(5,5,8,2)
         };
 
+        var cloudsReversed = clouds
+            .Select(c => new Cloud(c.X2, c.Y2, c.X1, c.Y1))
+            .ToArray();
+
         var result = CloudCalculator.GetNumberOfIntersectionsNoDiagonals(clouds);
+        var reversedResult = CloudCalculator.GetNumberOfIntersectionsNoDiagonals(cloudsReversed);
 
         Assert.Equal(5, result);
+        Assert.Equal(5, reversedResult);
     }
 
     [Fact]
@@ -41,8 +47,14 @@ public class CloudCalculatorTests
             new(5,5,8,2)
         };
 
+        var cloudsReversed = clouds
+            .Select(c => new Cloud(c.X2, c.Y2, c.X1, c.Y1))
+            .ToArray();
+
         var result = CloudCalculator.GetNumberOfIntersections(clouds);
+        var reversedResult = CloudCalculator.GetNumberOfIntersections(cloudsReversed);
 
         Assert.Equal(12, result);
+        Assert.Equal(12, reversedResult);
     }
 }
