@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Day06;
+﻿namespace Day06;
 
 public class LanternfishCalculator
 {
@@ -8,7 +6,7 @@ public class LanternfishCalculator
     {
         // Initial setup
         long[] birthCycles = new long[9];
-
+        
         foreach (var cycle in initialState)
             birthCycles[cycle]++;
 
