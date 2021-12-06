@@ -1,7 +1,7 @@
 ﻿using Day05;
 
 var clouds = File.ReadAllLines("Inputs/5.txt")
-    .Select(l => Cloud.FromString(l))
+    .Select(Cloud.FromString)
     .ToArray();
 
 var intersectingClouds = CloudCalculator.GetNumberOfIntersectionsNoDiagonals(clouds);
