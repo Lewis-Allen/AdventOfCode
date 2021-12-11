@@ -35,17 +35,11 @@ namespace Day11
                         octopuses[flash.Index].Flashed = true;
                         flashes++;
 
-                        var affected = octopuses
-                            .Select((o, i) => new { Octopus = o, Index = i })
-                            .Where(o => o.Octopus.X >= flash.Octopus.X - 1 &&
-                                        o.Octopus.X <= flash.Octopus.X + 1 &&
-                                        o.Octopus.Y >= flash.Octopus.Y - 1 &&
-                                        o.Octopus.Y <= flash.Octopus.Y + 1 &&
-                                        !(o.Octopus.X == flash.Octopus.X && o.Octopus.Y == flash.Octopus.Y));
+                        var affectedIndexes = GetAdjacents(octopuses, flash.Octopus);
 
-                        foreach (var octopus in affected)
+                        foreach (var index in affectedIndexes)
                         {
-                            octopuses[octopus.Index].Charge++;
+                            octopuses[index].Charge++;
                         }
                     }
                 }
@@ -81,17 +75,11 @@ namespace Day11
                     {
                         octopuses[flash.Index].Flashed = true;
 
-                        var affected = octopuses
-                            .Select((o, i) => new { Octopus = o, Index = i })
-                            .Where(o => o.Octopus.X >= flash.Octopus.X - 1 &&
-                                        o.Octopus.X <= flash.Octopus.X + 1 &&
-                                        o.Octopus.Y >= flash.Octopus.Y - 1 &&
-                                        o.Octopus.Y <= flash.Octopus.Y + 1 &&
-                                        !(o.Octopus.X == flash.Octopus.X && o.Octopus.Y == flash.Octopus.Y));
+                        var affectedIndexes = GetAdjacents(octopuses, flash.Octopus);
 
-                        foreach (var octopus in affected)
+                        foreach (var index in affectedIndexes)
                         {
-                            octopuses[octopus.Index].Charge++;
+                            octopuses[index].Charge++;
                         }
                     }
                 }
@@ -99,5 +87,14 @@ namespace Day11
 
             return step;
         }
+
+        private static IEnumerable<int> GetAdjacents(Octopus[] octopuses, Octopus octopus) => octopuses
+            .Select((o, i) => new { Octopus = o, Index = i })
+            .Where(o => o.Octopus.X >= octopus.X - 1 &&
+                        o.Octopus.X <= octopus.X + 1 &&
+                        o.Octopus.Y >= octopus.Y - 1 &&
+                        o.Octopus.Y <= octopus.Y + 1 &&
+                        !(o.Octopus.X == octopus.X && o.Octopus.Y == octopus.Y))
+            .Select(o => o.Index);
     }
 }
