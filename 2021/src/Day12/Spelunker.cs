@@ -8,10 +8,6 @@ namespace Day12
 {
     public class Spelunker
     {
-        
-
-        
-
         public static List<string[]> FindPaths(Dictionary<string, string[]> lookup)
         {
             var paths = new List<string[]>();
@@ -25,22 +21,24 @@ namespace Day12
         {
             if (key == "end")
             {
-                var final = route.ToList();
-                final.Add(key);
+                paths.Add(route
+                    .ToList()
+                    .Append(key)
+                    .ToArray());
 
-                paths.Add(final.ToArray());
                 return;
             }
 
             if (char.IsLower(key[0]) && route.Contains(key))
                 return;
 
-            var current = route.ToList();
-            current.Add(key);
+            var current = route
+                .ToList()
+                .Append(key);
 
             foreach (var next in lookup[key])
             {
-                Transverse(lookup, current, next, paths);
+                Transverse(lookup, current.ToList(), next, paths);
             }
         }
 
@@ -57,63 +55,39 @@ namespace Day12
         {
             if (key == "end")
             {
-                var final = route.ToList();
-                final.Add(key);
-                paths.Add(final.ToArray());
+                paths.Add(route
+                    .ToList()
+                    .Append(key)
+                    .ToArray());
+
                 return;
             }
 
-            if (char.IsLower(key[0]) &&
-                route.Contains(key) &&
-               (key == "start" || route.Where(c => char.IsLower(c[0])).GroupBy(k => k).Any(o => o.Count() >= 2)))
+            if (char.IsLower(key[0]) && route.Contains(key) && (key == "start" || route.Where(c => char.IsLower(c[0])).GroupBy(k => k).Any(o => o.Count() >= 2)))
                 return;
 
-            var current = route.ToList();
-            current.Add(key);
+            var current = route
+                .ToList()
+                .Append(key);
 
             foreach (var next in lookup[key])
             {
-                TransverseWithExtraVisiting(lookup, current, next, paths);
+                TransverseWithExtraVisiting(lookup, current.ToList(), next, paths);
             }
         }
 
-
-
-        public static Dictionary<string, string[]> ParseLines(string[] lines)
-        {
-            var lookup = new Dictionary<string, string[]>();
-
-            foreach (var line in lines)
+        public static Dictionary<string, string[]> ParseLines(string[] lines) => lines
+            .SelectMany(l =>
             {
-                var split = line.Split("-");
+                var split = l.Split("-");
                 var from = split[0];
                 var to = split[1];
 
-                AddPath(lookup, from, to);
-            }
-
-            return lookup;
-        }
-
-        private static void AddPath(Dictionary<string, string[]> lookup, string from, string to)
-        {
-            if (lookup.ContainsKey(from))
-            {
-                lookup[from] = lookup[from].Concat(new string[] { to }).ToArray();
-            }
-            else
-            {
-                lookup[from] = new string[] { to };
-            }
-
-            if (lookup.ContainsKey(to))
-            {
-                lookup[to] = lookup[to].Concat( new string[] { from }).ToArray();
-            }
-            else
-            {
-                lookup[to] = new string[] { from };
-            }
-        }
+                return new string[2] { from + "-" + to, to + "-" + from };
+            })
+            .GroupBy(l => l.Split("-")[0], 
+                     l => l.Split("-")[1])
+            .ToDictionary(g => g.Key,
+                          g => g.ToArray());
     }
 }
