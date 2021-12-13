@@ -32,3 +32,9 @@ for (int i = 0; i < instructions.Length; i++)
 
 // This outputs my 8 digit code to the console
 PaperFolder.OutputToConsole(dots);
+
+namespace Day13
+{
+    public record Instruction(bool IsX, int Pos);
+    public record Dot(int X, int Y);
+}
