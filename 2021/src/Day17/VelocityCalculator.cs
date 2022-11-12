@@ -70,8 +70,6 @@ namespace Day17
 
                     var x = 0;
                     var y = 0;
-                    var yMax = 0;
-
                     while (!(xV == 0 && y < Math.Min(target.FromY, target.ToY)))
                     {
                         x += xV;
@@ -84,8 +82,6 @@ namespace Day17
                             xV++;
 
                         yV--;
-
-                        yMax = Math.Max(yMax, y);
 
                         if (x >= Math.Min(target.FromX, target.ToX) && x <= Math.Max(target.FromX, target.ToX) && y >= Math.Min(target.FromY, target.ToY) && y <= Math.Max(target.FromY, target.ToY))
                         {
