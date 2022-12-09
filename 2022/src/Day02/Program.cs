@@ -1,12 +1,14 @@
 ﻿using Day02;
 
-var totalScore = File.ReadAllLines("Inputs/2.txt")
+var lines = File.ReadAllLines("Inputs/2.txt");
+
+var totalScore = lines
     .Select(Round.FromString)
     .Sum(r => Round.GetScore(r.You, r.Opponent));
 
 Console.WriteLine($"The total score from the strategy guide is {totalScore}.");
 
-totalScore = File.ReadAllLines("Inputs/2.txt")
+totalScore = lines
     .Select(Round.FromStringWithResult)
     .Sum(r => Round.GetScore(r.You, r.Opponent));
 
