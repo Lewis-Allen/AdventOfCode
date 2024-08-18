@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/template.json",
+  "author": "Lewis Allen",
+  "classifications": [],
+  "identity": "AOC.Template",
+  "name": "Lewis' AOC Template",
+  "description": "Creates folders for AOC",
+  "shortName": "AOCTemplate",
+  "sourceName": "AOC.Template",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sources": [
+    {
+      "source": "./AOC.Template",
+      "target": "./src/AOC.Template/",
+      "modifiers": [
+        { "exclude": [ ".vs/**", ".template_config/**" ] }
+      ]
+    },
+    {
+      "source": "./AOC.Template.Benchmarks",
+      "target": "./benchmarks/AOC.Template.Benchmarks/",
+      "modifiers": [
+        { "exclude": [ ".vs/**", ".template_config/**" ] }
+      ]
+    },
+    {
+      "source": "./AOC.Template.Tests",
+      "target": "./tests/AOC.Template.Tests/",
+      "modifiers": [
+        { "exclude": [ ".vs/**", ".template_config/**" ] }
+      ]
+    }
+  ],
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    { "path": "./src/AOC.Template/AOC.Template.csproj" },
+    { "path": "./benchmarks/AOC.Template.Benchmarks/AOC.Template.Benchmarks.csproj" },
+    { "path": "./tests/AOC.Template.Tests/AOC.Template.Tests.csproj" }
+  ],
+  "postActions": [
+    {
+
+      "description": "Add projects to solution",
+      "manualInstructions": [ { "text": "Add generated project to solution manually." } ],
+      "primaryOutputIndexes": "0;1;2",
+      "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+      "continueOnError": true
+    }
+  ]
+}

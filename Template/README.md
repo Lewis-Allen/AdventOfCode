@@ -1,0 +1,2 @@
+- Navigate to /Template directory and run command to install: `dotnet new install . --force`
+- Navigate to year directory and run command to generate projects `dotnet new AOCTemplate -o . -n "Day02"` replacing the -n param with the required name
