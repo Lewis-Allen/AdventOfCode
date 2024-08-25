@@ -18,13 +18,4 @@ for (var i = 0; i < 100; i++)
     grid.SwitchWithStuckLights();
 }
 
-foreach(var line in grid.Lights)
-{
-    foreach(var light in line)
-    {
-        Console.Write(light ? "#" : ".");
-    }
-    Console.WriteLine();
-}
-
 Console.WriteLine($"The number of lights on after 100 steps with stuck lights is {grid.GetOnLights()}");
