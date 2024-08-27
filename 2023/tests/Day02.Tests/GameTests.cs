@@ -1,7 +1,4 @@
-using Day02;
-using System.Runtime.CompilerServices;
-
-namespace Day.Tests;
+namespace Day02.Tests;
 
 public class GameTests
 {

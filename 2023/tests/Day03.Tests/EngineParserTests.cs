@@ -1,6 +1,4 @@
-using Day03;
-
-namespace Day.Tests;
+namespace Day03.Tests;
 
 public class EngineParserTests
 {

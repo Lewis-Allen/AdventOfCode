@@ -1,6 +1,4 @@
-using Day04;
-
-namespace Day.Tests;
+namespace Day04.Tests;
 
 public class CardParserTests
 {

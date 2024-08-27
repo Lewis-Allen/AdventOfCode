@@ -1,6 +1,4 @@
-using Day18;
-
-namespace Day.Tests;
+namespace Day18.Tests;
 
 public class LightTests
 {

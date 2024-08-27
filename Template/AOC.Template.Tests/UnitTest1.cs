@@ -1,4 +1,4 @@
-namespace Day.Tests;
+namespace AOC.Template.Tests;
 
 public class UnitTest1
 {
